@@ -1,0 +1,55 @@
+/* Общее для всех вариантов лендинга: шрифт, цвета, телефон, кнопки */
+@font-face { font-family: R; font-style: normal; font-weight: 100 900; font-display: swap; src: url(fonts/raleway-cyrillic-wght-normal.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+@font-face { font-family: R; font-style: normal; font-weight: 100 900; font-display: swap; src: url(fonts/raleway-latin-wght-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: R; font-style: italic; font-weight: 100 900; font-display: swap; src: url(fonts/raleway-cyrillic-wght-italic.woff2) format('woff2'); unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116; }
+@font-face { font-family: R; font-style: italic; font-weight: 100 900; font-display: swap; src: url(fonts/raleway-latin-wght-italic.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
+:root {
+  --ivory: #F3ECDE; --navy: #183451; --terra: #A9501C; --sand: #D4AF83;
+  --surface: #FAF6EE; --muted: #5E6E80; --line: rgba(24, 52, 81, .1); --deep: #0f2236;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { background: var(--ivory); color: var(--navy); font-family: R, -apple-system, system-ui, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+em { font-style: italic; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--terra); color: var(--ivory); text-decoration: none; font-weight: 600; font-size: 17px; padding: 17px 28px; border-radius: 18px; transition: transform .16s ease, background .2s ease, box-shadow .2s ease; box-shadow: 0 10px 24px -12px rgba(169, 80, 28, .7); }
+.btn:hover { background: #95461a; }
+.btn:active { transform: scale(.97); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn.ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
+.btn.ghost:hover { background: rgba(212, 175, 131, .14); }
+.btn.small { font-size: 15px; padding: 10px 16px; border-radius: 12px; box-shadow: none; }
+
+.kicker { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--terra); }
+
+/* телефон: рамка, строка состояния, «остров» */
+.device { position: relative; width: 260px; padding: 9px; background: var(--deep); border-radius: 48px; box-shadow: 0 40px 70px -30px rgba(15, 34, 54, .55), inset 0 0 0 1.5px rgba(255, 255, 255, .06); flex: none; }
+.device .scr { position: relative; border-radius: 39px; overflow: hidden; background: var(--ivory); padding-top: 34px; }
+.device .scr::before { content: ''; position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 31%; height: 19px; border-radius: 12px; background: #050b12; z-index: 2; }
+.device .scr::after { content: '9:41'; position: absolute; top: 9px; left: 11%; font-size: 12px; font-weight: 600; color: var(--navy); line-height: 19px; }
+.device img { width: 100%; }
+.device.cut .scr { aspect-ratio: 780 / 1300; }
+.device.cut img { height: 100%; object-fit: cover; object-position: top; }
+
+/* плашки поверх телефона */
+.chip { position: absolute; display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; background: var(--surface); color: var(--navy); font-size: 15px; font-weight: 500; padding: 11px 17px; border-radius: 999px; box-shadow: 0 16px 34px -14px rgba(15, 34, 54, .45); z-index: 3; }
+.chip svg { width: 18px; height: 18px; flex: none; }
+.chip.terra { background: var(--terra); color: var(--ivory); }
+.chip.navy { background: var(--navy); color: var(--ivory); }
+
+/* появление при прокрутке */
+.rise { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+details.q { border-bottom: 1px solid var(--line); }
+details.q summary { list-style: none; cursor: pointer; padding: 22px 40px 22px 0; font-size: 19px; font-weight: 500; position: relative; }
+details.q summary::-webkit-details-marker { display: none; }
+details.q summary::after { content: ''; position: absolute; right: 6px; top: 50%; width: 12px; height: 12px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform .3s var(--ease); }
+details.q[open] summary::after { transform: translateY(-25%) rotate(-135deg); }
+details.q p { color: var(--muted); padding: 0 0 22px; max-width: 46em; }

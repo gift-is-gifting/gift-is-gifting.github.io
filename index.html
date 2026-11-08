@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift is Gifting: вишлисты в Telegram с тайной бронью</title>
+<meta name="description" content="Создайте вишлист в Telegram и поделитесь ссылкой с друзьями. Друзья тайно бронируют подарки, подарки не повторяются, а сюрприз остаётся сюрпризом. Бесплатно и без регистрации.">
+<meta property="og:title" content="Gift is Gifting: вишлисты в Telegram">
+<meta property="og:description" content="Вишлисты для друзей, тайная бронь подарков и Тайный Санта прямо в Telegram.">
+<meta property="og:image" content="img/cover.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23183451'/%3E%3Cpath d='M8 14h16v10H8zM7 11h18v3H7zM16 11v13' fill='none' stroke='%23D4AF83' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M16 11c-2-4-6-4-5-1.5.6 1.3 3 1.5 5 1.5 2 0 4.4-.2 5-1.5 1-2.5-3-2.5-5 1.5z' fill='none' stroke='%23D4AF83' stroke-width='1.4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="base.css">
+<style>
+/* Первый экран: тёмный, два телефона с плашками */
+.hero { background: radial-gradient(120% 90% at 85% 10%, #24476b 0%, var(--navy) 45%, var(--deep) 100%); color: var(--ivory); position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; inset: auto -10% -1px; height: 90px; background: var(--ivory); border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; position: relative; z-index: 2; }
+.logo { font-size: 22px; font-weight: 300; text-decoration: none; }
+.logo i { color: var(--sand); }
+.nav .btn.small { background: rgba(243, 236, 222, .1); color: var(--ivory); box-shadow: inset 0 0 0 1px rgba(243, 236, 222, .25); }
+.hero-grid { display: grid; gap: 30px; padding: 20px 0 120px; position: relative; z-index: 1; }
+.hero .kicker { color: var(--sand); }
+.news { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; margin-bottom: 22px; border-radius: 999px; background: rgba(243, 236, 222, .08); box-shadow: inset 0 0 0 1px rgba(243, 236, 222, .18); color: var(--ivory); text-decoration: none; font-size: 14px; transition: background .2s ease; }
+.news:hover { background: rgba(243, 236, 222, .14); }
+.news img { width: 30px; height: 30px; border-radius: 50%; background: var(--ivory); padding: 2px; }
+.news b { color: var(--sand); font-weight: 600; }
+.news::after { content: '→'; color: var(--sand); }
+.hero h1 { font-size: clamp(38px, 7.6vw, 72px); line-height: 1.04; font-weight: 200; letter-spacing: -.015em; margin: 16px 0 22px; }
+.hero h1 em { color: var(--sand); font-weight: 300; }
+.hero .lead { font-size: clamp(17px, 2vw, 20px); color: rgba(243, 236, 222, .74); max-width: 30em; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero .btn.ghost { color: var(--ivory); box-shadow: inset 0 0 0 1.5px rgba(243, 236, 222, .35); }
+.free { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 26px; font-size: 14px; color: rgba(243, 236, 222, .6); }
+.free span::before { content: '✓'; color: var(--sand); margin-right: 7px; }
+.stage { position: relative; height: 600px; max-width: 460px; width: 100%; margin: 0 auto; }
+.stage .device { position: absolute; }
+.stage .back { width: 250px; left: 4%; top: 40px; transform: rotate(-7deg); opacity: .92; }
+.stage .front { width: 290px; right: 2%; top: 0; transform: rotate(4deg); }
+.stage .c1 { left: -2%; top: 56px; }
+.stage .c2 { right: -4%; bottom: 80px; }
+
+section { padding: 44px 0; }
+h2 { font-size: clamp(30px, 5vw, 48px); line-height: 1.1; font-weight: 200; letter-spacing: -.01em; margin-top: 12px; }
+h2 em { color: var(--terra); font-weight: 300; }
+.head { text-align: center; max-width: 640px; margin: 0 auto 20px; }
+
+/* Как это работает: телефон стоит на месте и меняет экраны, слева загораются шаги */
+.story-grid { display: grid; }
+.st { min-height: 54vh; display: flex; flex-direction: column; justify-content: center; padding: 20px 0; opacity: .3; transition: opacity .5s var(--ease); }
+.st.on { opacity: 1; }
+.st .n { font-size: 54px; font-weight: 100; color: var(--sand); line-height: 1; }
+.st h3 { font-size: clamp(28px, 3.4vw, 38px); font-weight: 300; line-height: 1.15; margin: 10px 0 14px; }
+.st p { color: var(--muted); font-size: 18px; max-width: 26em; }
+.st .device { display: none; width: 230px; margin: 22px auto 0; }
+.sticky { position: sticky; top: 0; height: 100vh; display: none; align-items: center; justify-content: center; }
+.sticky::before { content: ''; position: absolute; width: 640px; height: 640px; border-radius: 50%; background: radial-gradient(closest-side, rgba(212, 175, 131, .5), rgba(212, 175, 131, 0)); }
+.sticky .device { width: min(300px, calc((100vh - 90px) * .43)); }
+.sticky .scr { aspect-ratio: 780 / 1775; }
+.sticky .scr img { position: absolute; left: 0; top: 34px; opacity: 0; transform: scale(1.03); transition: opacity .55s var(--ease), transform .55s var(--ease); }
+.sticky .scr img.on { opacity: 1; transform: none; }
+.dots { position: absolute; right: -38px; top: 50%; transform: translateY(-50%); display: grid; gap: 10px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(24, 52, 81, .2); transition: background .3s, transform .3s; }
+.dots i.on { background: var(--terra); transform: scale(1.5); }
+
+/* Тайный Санта */
+.santa { background: var(--navy); color: var(--ivory); border-radius: 40px; padding: 44px 22px; display: grid; gap: 40px; align-items: center; justify-items: center; position: relative; overflow: hidden; }
+.santa::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(243, 236, 222, .5) 1px, transparent 1.5px); background-size: 36px 36px; opacity: .18; }
+.santa > * { position: relative; }
+.santa .kicker { color: var(--sand); }
+.santa h2 em { color: var(--sand); }
+.santa .lead { color: rgba(243, 236, 222, .74); font-size: 18px; margin-top: 14px; }
+.santa ol { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 16px; counter-reset: s; }
+.santa li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; counter-increment: s; }
+.santa li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; background: rgba(212, 175, 131, .18); color: var(--sand); display: grid; place-items: center; font-weight: 600; }
+.santa li b { display: block; font-weight: 600; }
+.santa li span { color: rgba(243, 236, 222, .7); font-size: 15px; }
+.santa .icon { width: 74px; margin-bottom: 12px; }
+.santa .device { background: #08151f; }
+
+.faq { max-width: 760px; margin: 0 auto; }
+.faq .head { margin-bottom: 16px; }
+
+.final { text-align: center; background: radial-gradient(100% 120% at 50% 0%, #24476b, var(--navy) 50%, var(--deep)); color: var(--ivory); padding: 64px 20px 72px; margin-top: 24px; }
+.final img { width: 140px; margin: 0 auto 18px; }
+.final p { color: rgba(243, 236, 222, .7); font-size: 18px; margin: 14px 0 30px; }
+.final h2 em { color: var(--sand); }
+.final .bot { margin-top: 18px; font-size: 15px; }
+.final .bot a { color: var(--sand); text-decoration: none; font-weight: 600; }
+footer { background: var(--deep); color: rgba(243, 236, 222, .5); text-align: center; font-size: 14px; padding: 22px; }
+
+@media (max-width: 899px) {
+  .st { min-height: 0; opacity: 1; padding: 22px 0; text-align: center; align-items: center; }
+  .st .device { display: block; }
+}
+@media (max-width: 819px) {
+  .stage { height: 500px; transform: scale(.9); transform-origin: top center; margin-bottom: -40px; }
+  .stage .back { left: -2%; }
+  .stage .c2 { right: 0; }
+}
+@media (min-width: 820px) {
+  .hero-grid { grid-template-columns: 1.05fr .95fr; align-items: center; padding: 30px 0 130px; }
+  .santa { grid-template-columns: 1.15fr .85fr; padding: 54px 64px; }
+}
+@media (min-width: 900px) {
+  .story-grid { grid-template-columns: 1fr 1fr; }
+  .sticky { display: flex; }
+  .steps { padding-bottom: 22vh; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a class="logo" href="./">Gift <i>is</i> Gifting</a>
+      <a class="btn small" href="https://t.me/gift_is_gifting_bot/wishlist">Открыть</a>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <a class="news" href="#santa"><img src="img/santa.svg" alt=""><span><b>Тайный Санта</b> для друзей и коллег</span></a><br>
+        <span class="kicker">Мини-приложение в Telegram</span>
+        <h1>Вишлисты, где сюрприз остаётся <em>сюрпризом</em></h1>
+        <p class="lead">Создайте вишлист и поделитесь ссылкой. Друзья тайно бронируют подарки: они не повторяются, а вы не знаете, что вам подарят.</p>
+        <div class="cta">
+          <a class="btn" href="https://t.me/gift_is_gifting_bot/wishlist"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.3 2.9 11.4c-1.3.5-1.2 1.3-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5zM9.6 14.1l8.8-5.6c.4-.3.8-.1.5.2l-7.3 6.6-.3 3.3-1.7-4.5z"/></svg>Открыть в Telegram</a>
+          <a class="btn ghost" href="#how">Как это работает</a>
+        </div>
+        <div class="free"><span>Бесплатно</span><span>Без регистрации</span><span>Без рекламы</span></div>
+      </div>
+      <div class="stage">
+        <div class="device back"><div class="scr"><img src="img/owner.jpg" alt="Вишлист глазами владельца"></div></div>
+        <div class="device front"><div class="scr"><img src="img/friend-list.jpg" alt="Вишлист глазами друга"></div></div>
+        <span class="chip c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c5 0 9 5 9 7a9.6 9.6 0 0 1-2.4 3.4M6.2 6.6C4.1 8 3 10.3 3 12c0 2 4 7 9 7a9.3 9.3 0 0 0 4.4-1.1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>Владелец не видит брони</span>
+        <span class="chip terra c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Вы забронировали</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="how" style="padding-bottom:10px">
+  <div class="wrap">
+    <div class="head rise">
+      <span class="kicker">Как это работает</span>
+      <h2>От вишлиста до <em>сюрприза</em></h2>
+    </div>
+    <div class="story-grid">
+      <div class="steps">
+        <div class="st" data-i="0"><span class="n">01</span><h3>Создайте вишлист</h3><p>На день рождения, Новый год или просто так. Укажите дату, и все увидят, сколько дней осталось до праздника.</p><div class="device"><div class="scr"><img src="img/create.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="1"><span class="n">02</span><h3>Добавьте подарки</h3><p>Фото, пару слов о том, какой именно нужен, и ссылку на магазин. Друзьям не придётся гадать.</p><div class="device"><div class="scr"><img src="img/gift-form.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="2"><span class="n">03</span><h3>Поделитесь ссылкой</h3><p>Отправьте её в любой чат. Друзья откроют вишлист прямо в Telegram, ничего не скачивая.</p><div class="device"><div class="scr"><img src="img/share.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="3"><span class="n">04</span><h3>Добавьте друзей</h3><p>Тогда новые вишлисты друг друга будут появляться сами, без ссылок. А бот напишет, когда друг создаст вишлист или добавит подарки.</p><div class="device"><div class="scr"><img src="img/friends.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="4"><span class="n">05</span><h3>Друзья бронируют тайно</h3><p>Остальные видят, что подарок уже выбран, и берут другой. Так подарки не повторяются.</p><div class="device"><div class="scr"><img src="img/book.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="5"><span class="n">06</span><h3>А вы ничего не знаете</h3><p>В вашем вишлисте нет ни одной подсказки, кто и что забронировал. Сюрприз остаётся сюрпризом до самого праздника.</p><div class="device"><div class="scr"><img src="img/owner.jpg" alt="" loading="lazy"></div></div></div>
+        <div class="st" data-i="6"><span class="n">07</span><h3>Ваши брони под рукой</h3><p>Подарки, которые выбрали вы, собраны в одном месте с обратным отсчётом. Если друг изменит или удалит такой подарок, бот сразу напишет.</p><div class="device"><div class="scr"><img src="img/reservations.jpg" alt="" loading="lazy"></div></div></div>
+      </div>
+      <div class="sticky">
+        <div style="position:relative">
+          <div class="device"><div class="scr">
+            <img class="on" src="img/create.jpg" alt=""><img src="img/gift-form.jpg" alt=""><img src="img/share.jpg" alt=""><img src="img/friends.jpg" alt=""><img src="img/book.jpg" alt=""><img src="img/owner.jpg" alt=""><img src="img/reservations.jpg" alt="">
+          </div></div>
+          <div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="santa">
+  <div class="wrap">
+    <div class="santa">
+      <div class="rise">
+        <img class="icon" src="img/santa.svg" alt="">
+        <span class="kicker">Тайный Санта</span>
+        <h2>Обмен подарками с друзьями и <em>коллегами</em></h2>
+        <p class="lead">Приложение само проведёт жеребьёвку и никому не выдаст секрет.</p>
+        <ol>
+          <li><div><b>Соберите участников</b><span>Отправьте ссылку в общий чат, каждый присоединится в одно касание</span></div></li>
+          <li><div><b>Каждый выбирает свой вишлист</b><span>Чтобы Санте было проще с подарком</span></div></li>
+          <li><div><b>Жеребьёвка</b><span>Каждый видит только того, кому дарит. Кто чей Санта, не узнает никто</span></div></li>
+        </ol>
+      </div>
+      <div class="device rise"><div class="scr"><img src="img/santa.jpg" alt="Тайный Санта" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap faq">
+    <div class="head rise"><span class="kicker">Вопросы</span><h2>Коротко о главном</h2></div>
+    <details class="q"><summary>Нужно что-то скачивать?</summary><p>Нет. Приложение открывается прямо в Telegram, имя и фото берутся из профиля.</p></details>
+    <details class="q"><summary>Кто видит мой вишлист?</summary><p>Только те, кому вы отправили ссылку, и ваши друзья в приложении.</p></details>
+    <details class="q"><summary>Можно скрыть вишлист?</summary><p>Да, в любой момент. Скрытый вишлист не видит никто, кроме вас, а когда вы вернёте его, брони друзей сохранятся.</p></details>
+    <details class="q"><summary>Можно ли забронировать подарок в прошедшем вишлисте?</summary><p>Нет. Когда дата праздника прошла, бронировать подарки из этого вишлиста уже нельзя.</p></details>
+  </div>
+</section>
+
+<section class="final">
+  <img src="img/gift.svg" alt="">
+  <h2>Создайте свой первый <em>вишлист</em></h2>
+  <p>Это займёт пару минут</p>
+  <a class="btn" href="https://t.me/gift_is_gifting_bot/wishlist"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.3 2.9 11.4c-1.3.5-1.2 1.3-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5zM9.6 14.1l8.8-5.6c.4-.3.8-.1.5.2l-7.3 6.6-.3 3.3-1.7-4.5z"/></svg>Открыть в Telegram</a>
+  <p class="bot">или найдите в Telegram <a href="https://t.me/gift_is_gifting_bot">@gift_is_gifting_bot</a></p>
+</section>
+<footer>Gift is Gifting · 2026</footer>
+
+<script>
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .15 })
+document.querySelectorAll('.rise').forEach(el => io.observe(el))
+
+// телефон на месте: показываем экран того шага, что сейчас посередине окна
+const shots = [...document.querySelectorAll('.sticky .scr img')], dots = [...document.querySelectorAll('.dots i')]
+const steps = [...document.querySelectorAll('.st')]
+const so = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return
+  const i = +e.target.dataset.i
+  ;[steps, shots, dots].forEach(list => list.forEach((el, k) => el.classList.toggle('on', k === i)))
+}), { rootMargin: '-45% 0px -45% 0px' })
+steps.forEach(s => so.observe(s))
+</script>
+</body>
+</html>

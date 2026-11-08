@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" width="640" height="440" role="img" aria-label="Открытая подарочная коробка с бантом, сердцем и конфетти">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#FBF5EC"/>
+      <stop offset="100%" stop-color="#F1E6D6"/>
+    </radialGradient>
+    <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#33435F"/>
+      <stop offset="100%" stop-color="#26334B"/>
+    </linearGradient>
+    <linearGradient id="lid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D5072"/>
+      <stop offset="100%" stop-color="#2F3F5C"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9A473"/>
+      <stop offset="50%" stop-color="#DCC096"/>
+      <stop offset="100%" stop-color="#C9A473"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft background disc -->
+  <circle cx="320" cy="232" r="196" fill="url(#glow)"/>
+
+  <!-- confetti -->
+  <g opacity="0.95">
+    <rect x="118" y="120" width="16" height="7" rx="3.5" fill="#D6B68E" transform="rotate(-28 126 123)"/>
+    <rect x="150" y="250" width="14" height="6" rx="3" fill="#2B3A55" transform="rotate(35 157 253)"/>
+    <rect x="488" y="132" width="16" height="7" rx="3.5" fill="#2B3A55" transform="rotate(24 496 135)"/>
+    <rect x="500" y="268" width="14" height="6" rx="3" fill="#D6B68E" transform="rotate(-40 507 271)"/>
+    <rect x="214" y="78" width="12" height="5" rx="2.5" fill="#E3957A" transform="rotate(18 220 80)"/>
+    <rect x="420" y="70" width="13" height="5" rx="2.5" fill="#D6B68E" transform="rotate(-15 426 72)"/>
+    <circle cx="176" cy="178" r="5" fill="#E3957A"/>
+    <circle cx="470" cy="205" r="5" fill="#E3957A"/>
+    <circle cx="452" cy="104" r="4" fill="#2B3A55"/>
+    <circle cx="190" cy="318" r="4" fill="#D6B68E"/>
+    <circle cx="462" cy="330" r="4" fill="#2B3A55"/>
+    <circle cx="268" cy="64" r="3.5" fill="#2B3A55"/>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#D6B68E">
+    <path d="M384 62 l5 15 l15 5 l-15 5 l-5 15 l-5 -15 l-15 -5 l15 -5 z"/>
+    <path d="M140 210 l4 11 l11 4 l-11 4 l-4 11 l-4 -11 l-11 -4 l11 -4 z"/>
+    <path d="M520 196 l3.5 10 l10 3.5 l-10 3.5 l-3.5 10 l-3.5 -10 l-10 -3.5 l10 -3.5 z"/>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="320" cy="388" rx="128" ry="12" fill="#2B3A55" opacity="0.10"/>
+
+  <!-- box body -->
+  <rect x="214" y="236" width="212" height="146" rx="14" fill="url(#boxFront)"/>
+  <!-- inner shadow line under lid -->
+  <rect x="220" y="236" width="200" height="10" fill="#1F2A3F" opacity="0.45"/>
+  <!-- vertical ribbon on body -->
+  <rect x="304" y="236" width="32" height="146" fill="url(#ribbon)"/>
+
+  <!-- heart flying out of the opened box -->
+  <g transform="translate(440 112) rotate(8)">
+    <path d="M0 30 C -6 24 -38 4 -38 -16 C -38 -30 -27 -40 -15 -40 C -7 -40 -2 -35 0 -30 C 2 -35 7 -40 15 -40 C 27 -40 38 -30 38 -16 C 38 4 6 24 0 30 Z" fill="#E3957A"/>
+    <path d="M-25 -24 C -24 -30 -19 -33 -13 -32" stroke="#FBF5EC" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.85"/>
+  </g>
+  <!-- lid, tilted open -->
+  <g transform="rotate(-14 204 236)">
+    <rect x="198" y="196" width="244" height="50" rx="12" fill="url(#lid)"/>
+    <rect x="304" y="196" width="32" height="50" fill="url(#ribbon)"/>
+    <!-- bow -->
+    <g transform="translate(320 196)">
+      <path d="M0 0 C -18 -34 -62 -34 -58 -10 C -55 8 -22 6 0 0 Z" fill="#D6B68E" stroke="#B8935F" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M0 0 C 18 -34 62 -34 58 -10 C 55 8 22 6 0 0 Z" fill="#D6B68E" stroke="#B8935F" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M-4 2 L -20 30" stroke="#C9A473" stroke-width="9" stroke-linecap="round"/>
+      <path d="M4 2 L 20 30" stroke="#C9A473" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="0" cy="-1" r="10" fill="#C9A473" stroke="#B8935F" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- "reserved" tag hanging on the box -->
+  <path d="M336 262 C 360 268 372 280 384 296" stroke="#C9A473" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <g transform="translate(372 290) rotate(12)">
+    <path d="M0 0 h44 v54 l-22 -14 l-22 14 z" fill="#FBF5EC" stroke="#D6B68E" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M11 22 l8 8 l15 -16" stroke="#2B3A55" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
